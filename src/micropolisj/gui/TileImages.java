@@ -35,7 +35,7 @@ public class TileImages
 
 	static Map<Integer,TileImages> savedInstances = new HashMap<Integer,TileImages>();
 
-	public static TileImages getInstance(int size)
+	public static TileImages getInstance(int size) // NOT THIS, only runs at start
 	{
 		if (!savedInstances.containsKey(size)) {
 			savedInstances.put(size, new TileImages(size));

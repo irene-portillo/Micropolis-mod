@@ -382,7 +382,12 @@ public class TileConstants
 	{
 		assert (tile & LOMASK) == tile;
 
-		return tile >= FIRSTRIVEDGE && tile <= WOODS5;
+		return tile >= FIRSTRIVEDGE && tile <= LASTRIVEDGE;//WOODS5;
+		// Not sure if you wanted me to change this too so that it only goes to last river edge and not the woods
+//		static final char RIVEDGE = 5;
+//		static final char FIRSTRIVEDGE = 5;
+//		static final char LASTRIVEDGE = 20;
+
 	}
 
 	public static boolean isDozeable(int tile)
@@ -395,7 +400,7 @@ public class TileConstants
 
 	static boolean isFloodable(int tile)
 	{
-		assert (tile & LOMASK) == tile;
+		assert ( (tile & LOMASK ) == tile) & (isRiverEdge(tile)==true);
 
 		return (tile == DIRT || (isDozeable(tile) && isCombustible(tile)));
 	}
