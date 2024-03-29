@@ -467,7 +467,6 @@ public class Micropolis
 	/**
 	 * Note: this method clears the PWRBIT of the given location.
 	 */
-	public void setTile(int xpos, int ypos, char newTile)
 	{
 		// check to make sure we aren't setting an upper bit using
 		// this method
