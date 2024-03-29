@@ -1218,6 +1218,15 @@ public class Micropolis
 			}
 		}
 
+		//**** MAKE INTO FUNC LATER, THEN CALL ****//
+		// Set river edge coordinates to LAND
+		for (Coordinate coord: rivEdgeCoords ) {
+			int xVal = coord.getX();
+			int yVal = coord.getY();
+			setTile(xVal, yVal, (char)(RUBBLE + PRNG.nextInt(4))); // OHHHH the add int gets a random num + rubble num = number withing rubble range
+		}
+		// Send out message for drought (based on cases later)
+		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
 		landValueAverage = landValueCount != 0 ? (landValueTotal/landValueCount) : 0;
 
 		tem = doSmooth(tem);
