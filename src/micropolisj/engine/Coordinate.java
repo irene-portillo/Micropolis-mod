@@ -34,12 +34,12 @@ public class Coordinate {
 
 	public void setY(int y) {
 		this.y = y;
-	}
+	}	
 
-	public void printCoord() {
-		System.out.println("Coordinate: (" + this.x + ", " + this.y + ")");
+	@Override
+	public String toString() {
+		return "Coordinate: (" + x + ", " + y + ")";
 	}
-	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
