@@ -38,7 +38,7 @@ public class Coordinate {
 
 	@Override
 	public String toString() {
-		return "Coordinate: (" + x + ", " + y + ")";
+		return "(" + x + ", " + y + ") ";
 	}
 
 	public static void main(String[] args) {

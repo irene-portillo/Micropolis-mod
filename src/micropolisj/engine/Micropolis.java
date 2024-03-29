@@ -467,6 +467,7 @@ public class Micropolis
 	/**
 	 * Note: this method clears the PWRBIT of the given location.
 	 */
+	public void setTile(int xpos, int ypos, char newTile) // check this out later to see if i can set new tile ehre
 	{
 		// check to make sure we aren't setting an upper bit using
 		// this method
@@ -1135,6 +1136,7 @@ public class Micropolis
 	//power, terrain, land value
 	void ptlScan()
 	{
+		List<Coordinate> rivEdgeCoords = new ArrayList<>();
 		final int qX = (getWidth()+3)/4;
 		final int qY = (getHeight()+3)/4;
 		int [][] qtem = new int[qY][qX];
@@ -1159,6 +1161,13 @@ public class Micropolis
 					for (int my = zy; my <= zy+1; my++)
 					{
 						int tile = getTile(mx, my);
+						// CHECK if tile is a RIVER EDGE 
+						if (tile >= FIRSTRIVEDGE && tile <= LASTRIVEDGE ) { 
+//							System.out.println("RIVERS EDGE, UHH THIS WORKED, HERE'S COORDS: " + mx + ", " + my);
+							// Add tiles to list of river edge coordinates  
+							Coordinate newCoord = new Coordinate(mx, my);
+							rivEdgeCoords.add(newCoord);
+						}
 						if (tile != DIRT)
 						{
 							if (tile < RUBBLE) //natural land features
