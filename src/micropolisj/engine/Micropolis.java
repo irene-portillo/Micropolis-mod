@@ -12,6 +12,7 @@ import java.io.*;
 import java.util.*;
 
 import static micropolisj.engine.TileConstants.*;
+import micropolisj.engine.Coordinate;
 
 /**
  * The main simulation engine for Micropolis.
@@ -1217,16 +1218,8 @@ public class Micropolis
 				}
 			}
 		}
-
-		//**** MAKE INTO FUNC LATER, THEN CALL ****//
-		// Set river edge coordinates to LAND
-		for (Coordinate coord: rivEdgeCoords ) {
-			int xVal = coord.getX();
-			int yVal = coord.getY();
-			setTile(xVal, yVal, (char)(RUBBLE + PRNG.nextInt(4))); // OHHHH the add int gets a random num + rubble num = number withing rubble range
-		}
-		// Send out message for drought (based on cases later)
-		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
+		// Do drought actions
+		makeDrought(rivEdgeCoords); 
 		landValueAverage = landValueCount != 0 ? (landValueTotal/landValueCount) : 0;
 
 		tem = doSmooth(tem);
@@ -2385,6 +2378,19 @@ public class Micropolis
 		sendMessageAt(MicropolisMessage.TORNADO_REPORT, xpos, ypos);
 	}
 
+	//** NEW DISASTER -> DROUGHT ** //
+	// Make current river edge tiles into rubble
+	public void makeDrought(List<Coordinate> rivEdgeCoords) 
+	{		
+		// Set river edge coordinates to RUBBLE
+		for (Coordinate coord: rivEdgeCoords ) {
+			int xVal = coord.getX();
+			int yVal = coord.getY();
+			setTile(xVal, yVal, (char)(RUBBLE + PRNG.nextInt(4))); // OHHHH the add int gets a random num + rubble num = number withing rubble range
+		}
+		// Send out message for drought (based on cases later)
+		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
+	}
 	public void makeFlood()
 	{
 		final int [] DX = { 0, 1, 0, -1 };
