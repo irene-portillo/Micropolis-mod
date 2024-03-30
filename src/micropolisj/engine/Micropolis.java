@@ -2424,12 +2424,12 @@ public class Micropolis
 				// Check if tile is a water tile
 				int newTile = getTile(newX, newY);
 //				System.out.println(tile); 
-				if (newTile == RIVER ){//>= FIRSTRIVEDGE && newTile <= LASTRIVEDGE ) { 
 					// I think this should work bc all rive tiles look the same 
 //					switch()
 					// just to test things out
 //					RIVEDGE
 					setTile(newX, newY, (char)(RIVEDGE));
+					if (newTile == RIVER | newTile == CHANNEL){
 				}
 			}
 		}
