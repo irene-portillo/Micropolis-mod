@@ -2395,42 +2395,42 @@ public class Micropolis
 		// Send out message for drought (based on cases later)
 		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
 	}
+	
 	// Make water tiles SURROUNDING the river edge tiles into the new river edge tiles
 	public void setNewRivEdges(List<Coordinate> rivEdgeCoords) {
 		// The current coord would be (0,0), the rest are surrounding
 		List<Coordinate> SURROUNDING_COORDS = Arrays.asList(
-				new Coordinate(-1,-1),
+				new Coordinate(-1,-1), // i = 0
 				new Coordinate( 0,-1),
 				new Coordinate( 1,-1),
 				new Coordinate(-1, 0),
 				new Coordinate( 1, 0),
 				new Coordinate(-1, 1),
 				new Coordinate( 0, 1),
-				new Coordinate( 1, 1)
+				new Coordinate( 1, 1)  // i = 7
 				);
-
+		
 		// Check surrounding coordinates
 		for( Coordinate currCord: rivEdgeCoords) {
 			int currX = currCord.getX();
 			int currY = currCord.getY();
 			for( Coordinate NEXT_COORD: SURROUNDING_COORDS) {
+			//Changed to using i for switch cases
+//			for (int i = 0; i < SURROUNDING_COORDS.size() ; i++ ) {
+//				int dx = SURROUNDING_COORDS.get(i).getX();
+//				int dy = SURROUNDING_COORDS.get(i).getY();
 				int dx = NEXT_COORD.getX();
 				int dy = NEXT_COORD.getY();
 				// Set tile coordinates of the surrounding tile
 				int newX = currX + dx;
-				int newY = currY + dy;
+				int newY = currY + dy;				
 				// Check if in bounds 
-				if ( testBounds(newX, newY) == false){continue;}
+				if ( testBounds(newX, newY) == false){ continue;}
 				// Check if tile is a water tile
 				int newTile = getTile(newX, newY);
-//				System.out.println(tile); 
-					// I think this should work bc all rive tiles look the same 
-//					switch()
-					// just to test things out
-//					RIVEDGE
-					setTile(newX, newY, (char)(RIVEDGE));
-					if (newTile == RIVER | newTile == CHANNEL){
-				}
+				if (newTile == RIVER | newTile == CHANNEL){
+					setTile(newX, newY, (char)(FIRSTRIVEDGE));
+				}				
 			}
 		}
 	}
