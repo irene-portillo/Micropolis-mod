@@ -12,7 +12,6 @@ import java.io.*;
 import java.util.*;
 
 import static micropolisj.engine.TileConstants.*;
-import micropolisj.engine.Coordinate;
 
 /**
  * The main simulation engine for Micropolis.
