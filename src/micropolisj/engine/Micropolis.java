@@ -1223,6 +1223,7 @@ public class Micropolis
 		}
 		// Do drought actions
 		makeDrought(rivEdgeCoords); 
+		setNewRivEdges(rivEdgeCoords);
 		landValueAverage = landValueCount != 0 ? (landValueTotal/landValueCount) : 0;
 
 		tem = doSmooth(tem);
@@ -2393,6 +2394,45 @@ public class Micropolis
 		}
 		// Send out message for drought (based on cases later)
 		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
+	}
+	// Make water tiles SURROUNDING the river edge tiles into the new river edge tiles
+	public void setNewRivEdges(List<Coordinate> rivEdgeCoords) {
+		// The current coord would be (0,0), the rest are surrounding
+		List<Coordinate> SURROUNDING_COORDS = Arrays.asList(
+				new Coordinate(-1,-1),
+				new Coordinate( 0,-1),
+				new Coordinate( 1,-1),
+				new Coordinate(-1, 0),
+				new Coordinate( 1, 0),
+				new Coordinate(-1, 1),
+				new Coordinate( 0, 1),
+				new Coordinate( 1, 1)
+				);
+
+		// Check surrounding coordinates
+		for( Coordinate currCord: rivEdgeCoords) {
+			int currX = currCord.getX();
+			int currY = currCord.getY();
+			for( Coordinate NEXT_COORD: SURROUNDING_COORDS) {
+				int dx = NEXT_COORD.getX();
+				int dy = NEXT_COORD.getY();
+				// Set tile coordinates of the surrounding tile
+				int newX = currX + dx;
+				int newY = currY + dy;
+				// Check if in bounds 
+				if ( testBounds(newX, newY) == false){continue;}
+				// Check if tile is a water tile
+				int newTile = getTile(newX, newY);
+//				System.out.println(tile); 
+				if (newTile == RIVER ){//>= FIRSTRIVEDGE && newTile <= LASTRIVEDGE ) { 
+					// I think this should work bc all rive tiles look the same 
+//					switch()
+					// just to test things out
+//					RIVEDGE
+					setTile(newX, newY, (char)(RIVEDGE));
+				}
+			}
+		}
 	}
 	public void makeFlood()
 	{
