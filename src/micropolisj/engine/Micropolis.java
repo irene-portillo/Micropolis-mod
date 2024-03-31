@@ -2385,7 +2385,8 @@ public class Micropolis
 		sendMessageAt(MicropolisMessage.TORNADO_REPORT, xpos, ypos);
 	}
 
-	//** NEW DISASTER -> DROUGHT ** //
+	//////////////////////////////////////////////////////////////////
+	
 	//****** NEW DISASTER -- DROUGHT ******//
 	
 	// Based on level of pollution, act on send messages / send out droughts
@@ -2403,6 +2404,7 @@ public class Micropolis
 		else if(pollutionAverage >= 60 && pollutionAverage <70) {
 			sendMessage(MicropolisMessage.POLLUTION_WARNING_3); 
 			chance -= 1; // Increase chance of drought by 1 
+			if (PRNG.nextInt(3) == 0) {doSinkHole();} // make sinkhole, 1 in 3 chance
 		}
 		//4th warning: 70-99	
 		else if(pollutionAverage >= 70 && pollutionAverage <100) {
@@ -2471,6 +2473,17 @@ public class Micropolis
 			}
 		}
 	}
+	
+	//****** NEW DISASTER -- SINKHOLE ******//
+	public void doSinkHole() 
+	{
+		int xpos = PRNG.nextInt(getWidth()); 
+		int ypos = PRNG.nextInt(getHeight());
+		setTile(xpos, ypos, (char)(RUBBLE)); // change rubble to SINKHOLE_PNG when that works 
+		System.out.println("sinkhole at: (" +xpos + ", "+ ypos + ")");
+	}
+	//////////////////////////////////////////////////////////////////
+
 	public void makeFlood()
 	{
 		final int [] DX = { 0, 1, 0, -1 };
