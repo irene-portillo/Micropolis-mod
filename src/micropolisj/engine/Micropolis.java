@@ -1225,6 +1225,8 @@ public class Micropolis
 		// Do drought actions
 		makeDrought(rivEdgeCoords); 
 		setNewRivEdges(rivEdgeCoords);
+		// Send out message for drought (based on cases later)
+		actOnPollution(rivEdgeCoords);
 		landValueAverage = landValueCount != 0 ? (landValueTotal/landValueCount) : 0;
 
 		tem = doSmooth(tem);
@@ -2386,6 +2388,45 @@ public class Micropolis
 	}
 
 	//** NEW DISASTER -> DROUGHT ** //
+	//****** NEW DISASTER -- DROUGHT ******//
+	
+	// Based on level of pollution, act on send messages / send out droughts
+	public void actOnPollution(List<Coordinate> rivEdgeCoords) {
+		int chance = 5;
+		// 1st warning: 40-49
+		if( pollutionAverage >= 40 && pollutionAverage <50) {
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_1); 
+		}
+		//2nd warning: 50-59 
+		else if(pollutionAverage >= 50 && pollutionAverage <60) {
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
+		}
+		//3rd warning: 60-69
+		else if(pollutionAverage >= 60 && pollutionAverage <70) {
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_3); 
+			chance -= 1; // Increase chance of drought by 1 
+		}
+		//4th warning: 70-99	
+		else if(pollutionAverage >= 70 && pollutionAverage <100) {
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_4); 
+			isPermPollution = true; // pollution is now PERMANENT; there's no fixing it
+			chance -= 2; // Increase chance of drought by 2
+		}
+		//5th warning: 100
+		else if(pollutionAverage >=100) {
+			// This will be game lost
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_5); 
+		}
+		// Make drought happen if pollution is above 50
+		if (pollutionAverage >= 50) {
+			int randNum = PRNG.nextInt(chance);
+			if (randNum == 0) {
+				makeDrought(rivEdgeCoords);
+				System.out.println(randNum);
+			}
+		}
+	}
+	
 	// Make current river edge tiles into rubble
 	public void makeDrought(List<Coordinate> rivEdgeCoords) 
 	{		
@@ -2395,8 +2436,8 @@ public class Micropolis
 			int yVal = coord.getY();
 			setTile(xVal, yVal, (char)(RUBBLE + PRNG.nextInt(4))); // OHHHH the add int gets a random num + rubble num = number withing rubble range
 		}
-		// Send out message for drought (based on cases later)
-		sendMessage(MicropolisMessage.POLLUTION_WARNING_2); 
+		// Make new river edge tiles
+		setNewRivEdges(rivEdgeCoords);
 	}
 	
 	// Make water tiles SURROUNDING the river edge tiles into the new river edge tiles
