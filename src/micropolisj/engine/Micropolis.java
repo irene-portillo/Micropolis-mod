@@ -155,6 +155,8 @@ public class Micropolis
 	int landValueAverage;
 	int trafficAverage;
 
+	// POLLUTION //
+	boolean isPermPollution = false; // determines if pollution is permanent
 	int resValve;   // ranges between -2000 and 2000, updated by setValves
 	int comValve;   // ranges between -1500 and 1500
 	int indValve;   // ranges between -1500 and 1500
@@ -1254,8 +1256,10 @@ public class Micropolis
 			}
 		}
 
-		pollutionAverage = pcount != 0 ? (ptotal / pcount) : 0;
-
+		int pollAvgUnofficial = pcount != 0 ? (ptotal / pcount) : 0; // overall pollution average?? how is this determined??
+		if ( (isPermPollution == true && pollutionAverage <= pollAvgUnofficial) || (isPermPollution == false)){
+			pollutionAverage = pollAvgUnofficial;
+		}
 		terrainMem = smoothTerrain(qtem);
 
 		fireMapOverlayDataChanged(MapState.POLLUTE_OVERLAY);   //PLMAP
