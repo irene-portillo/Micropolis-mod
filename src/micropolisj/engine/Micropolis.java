@@ -1222,9 +1222,7 @@ public class Micropolis
 				}
 			}
 		}
-		// Do drought actions
-		makeDrought(rivEdgeCoords); 
-		setNewRivEdges(rivEdgeCoords);
+		
 		// Send out message for drought (based on cases later)
 		actOnPollution(rivEdgeCoords);
 		landValueAverage = landValueCount != 0 ? (landValueTotal/landValueCount) : 0;
@@ -2428,8 +2426,7 @@ public class Micropolis
 	}
 	
 	// Make current river edge tiles into rubble
-	public void makeDrought(List<Coordinate> rivEdgeCoords) 
-	{		
+	public void makeDrought(List<Coordinate> rivEdgeCoords){		
 		// Set river edge coordinates to RUBBLE
 		for (Coordinate coord: rivEdgeCoords ) {
 			int xVal = coord.getX();
@@ -2439,30 +2436,25 @@ public class Micropolis
 		// Make new river edge tiles
 		setNewRivEdges(rivEdgeCoords);
 	}
-	
+		
 	// Make water tiles SURROUNDING the river edge tiles into the new river edge tiles
 	public void setNewRivEdges(List<Coordinate> rivEdgeCoords) {
 		// The current coord would be (0,0), the rest are surrounding
 		List<Coordinate> SURROUNDING_COORDS = Arrays.asList(
-				new Coordinate(-1,-1), // i = 0
+				new Coordinate(-1,-1),
 				new Coordinate( 0,-1),
 				new Coordinate( 1,-1),
 				new Coordinate(-1, 0),
 				new Coordinate( 1, 0),
 				new Coordinate(-1, 1),
 				new Coordinate( 0, 1),
-				new Coordinate( 1, 1)  // i = 7
+				new Coordinate( 1, 1)  
 				);
-		
 		// Check surrounding coordinates
 		for( Coordinate currCord: rivEdgeCoords) {
 			int currX = currCord.getX();
 			int currY = currCord.getY();
 			for( Coordinate NEXT_COORD: SURROUNDING_COORDS) {
-			//Changed to using i for switch cases
-//			for (int i = 0; i < SURROUNDING_COORDS.size() ; i++ ) {
-//				int dx = SURROUNDING_COORDS.get(i).getX();
-//				int dy = SURROUNDING_COORDS.get(i).getY();
 				int dx = NEXT_COORD.getX();
 				int dy = NEXT_COORD.getY();
 				// Set tile coordinates of the surrounding tile
@@ -2473,6 +2465,7 @@ public class Micropolis
 				// Check if tile is a water tile
 				int newTile = getTile(newX, newY);
 				if (newTile == RIVER | newTile == CHANNEL){
+					// Make tile into river edge if so 
 					setTile(newX, newY, (char)(FIRSTRIVEDGE));
 				}				
 			}
