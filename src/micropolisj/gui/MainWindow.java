@@ -1729,4 +1729,9 @@ public class MainWindow extends JFrame
 			JOptionPane.PLAIN_MESSAGE,
 			appIcon);
 	}
+	
+	private boolean isGameOver() {
+		final Micropolis engine = getEngine();
+		return engine.gameOver;
+	}
 }
