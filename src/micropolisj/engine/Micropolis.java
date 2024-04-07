@@ -24,6 +24,9 @@ public class Micropolis
 
 	Random PRNG;
 
+	// Decides if its game over
+	public boolean gameOver = false;
+	
 	// full size arrays
 	char [][] map;
 	boolean [][] powerMap;
@@ -2391,6 +2394,14 @@ public class Micropolis
 	
 	// Based on level of pollution, act on send messages / send out droughts
 	public void actOnPollution(List<Coordinate> rivEdgeCoords) {
+		
+		// Check if any water is left -- if not, game is over 
+		if (rivEdgeCoords.isEmpty()){
+			sendMessage(MicropolisMessage.POLLUTION_WARNING_5); 
+			gameOver = true;
+			return;
+		}
+		
 		int chance = 5;
 		// 1st warning: 40-49
 		if( pollutionAverage >= 40 && pollutionAverage <50) {
