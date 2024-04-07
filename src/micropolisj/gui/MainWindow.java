@@ -211,6 +211,7 @@ public class MainWindow extends JFrame
 			public void mousePressed(MouseEvent ev)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onToolDown(ev);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -219,6 +220,7 @@ public class MainWindow extends JFrame
 			public void mouseReleased(MouseEvent ev)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onToolUp(ev);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -227,6 +229,7 @@ public class MainWindow extends JFrame
 			public void mouseDragged(MouseEvent ev)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onToolDrag(ev);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -235,6 +238,7 @@ public class MainWindow extends JFrame
 			public void mouseMoved(MouseEvent ev)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onToolHover(ev);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -243,6 +247,7 @@ public class MainWindow extends JFrame
 			public void mouseExited(MouseEvent ev)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onToolExited(ev);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -251,6 +256,7 @@ public class MainWindow extends JFrame
 			public void mouseWheelMoved(MouseWheelEvent evt)
 			{
 				try {
+					if (isGameOver()){return;} // if the game is over, it wont run
 					onMouseWheelMoved(evt);
 				} catch (Throwable e) {
 					showErrorMessage(e);
@@ -1371,17 +1377,20 @@ public class MainWindow extends JFrame
 		ActionListener taskPerformer = new ActionListener() {
 		public void actionPerformed(ActionEvent evt)
 		{
-			for (int i = 0; i < count; i++)
-			{
-				engine.animate();
-				if (!engine.autoBudget && engine.isBudgetTime())
+			if (engine.gameOver == false){
+				for (int i = 0; i < count; i++)
 				{
-					showAutoBudget();
-					return;
+					
+					engine.animate();
+					if (!engine.autoBudget && engine.isBudgetTime())
+					{
+						showAutoBudget();
+						return;
+					}
 				}
+				updateDateLabel();
+				dirty2 = true;
 			}
-			updateDateLabel();
-			dirty2 = true;
 		}};
 		taskPerformer = wrapActionListener(taskPerformer);
 
@@ -1520,6 +1529,7 @@ public class MainWindow extends JFrame
 
 	private void onInvokeDisasterClicked(Disaster disaster)
 	{
+		if (isGameOver()){return;} // if the game is over, it wont run - IRENE
 		dirty1 = true;
 		switch (disaster) {
 		case FIRE:
